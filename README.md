@@ -14,17 +14,6 @@
   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-- [🔃 Port Mapping](#port-mapping)
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#port-mapping">🔃 Port Mapping</a></li>
-    <li><a href="#setting-time-zone">⏰ Setting Time Zone</a></li>
-    <li><a href="#managing-sensitive-information">🔒 Managing Sensitive Information</a></li>
-  </ol>
-</details>
-
 ---
 
 ## 🔃 Port Mapping
@@ -58,7 +47,7 @@ environment:
   - TZ=America/Los_Angeles
 ```
 > [!NOTE]  
-> In the files where TZ variables are used, replace "America/Los_Angeles" with the time zone you want. Check your time zone using this [time zone finder by Marius Bogdan](https://timezone.mariushosting.com/).
+> In the files where TZ variables are used, replace "America/Los_Angeles" with the time zone you want. Check your time zone using this [time zone finder by Marius Bogdan Lizandru](https://timezone.mariushosting.com/).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -93,4 +82,11 @@ Alternatively, include sensitive information in a separate .env file and referen
 
 > [!NOTE]  
 > Note: When sensitive values are required, stack.env will use placeholder values like {VALUE} for you to replace with actual information. Make sure to save this .env file in the same directory as the docker-compose.yml file.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🙏 Acknowledgments
+
+Usually most of these files have been taken from other sites and modified slightly to work in my own environment. These sites can be varied although I would particularly like to thank [Marius Hosting](https://mariushosting.com/), a website where Marius Bogdan Lizandru shares many stacks to implement directly via portainer.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
