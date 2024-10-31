@@ -6,7 +6,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/610px-Docker_%28container_engine%29_logo.svg.png" alt="Logo" width="30%" height="30%">
   </a>
 
-  <h3 align="center">Docker Compose Collection for Homelab 🏠</h3>
+  <h3 align="center">🏠 Docker Compose Collection for Homelab</h3>
 
   <p align="center">
     A collection of Docker Compose files designed for deploying various services in a homelab environment.
