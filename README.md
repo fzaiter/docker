@@ -41,10 +41,10 @@ In this example:
 
 ## 🔄 Volume Mapping
 
-Docker Compose also allows you to map volumes from your host system to containers, enabling data sharing between the two. The format is `source_path:destination_path`, where:
+Docker Compose also allows you to map volumes from your host system to containers. The format is `source_path:destination_path`, where:
 
 - The **left side** specifies the path on your host.
-- The **right side** specifies the destination path within the container.
+- The **right side** specifies the folder the container is expecting at that location.
 
 For example, to map a local directory located at `/volume/docker/containername/data` to a container directory `/data`:
 
@@ -56,10 +56,10 @@ In this example:
 
 > /volume/docker/containername/data: The host directory that you want to share with the container.
 >
-> /data: The destination directory inside the container where the shared data will be located.
+> /data: The directory the container will expect.
 
 > [!NOTE]  
-> In the files where volume variables are used, you can customize this by replacing the source path with a desired directory on your host system and keeping the destination path as it comes.
+> In the files where volume variables are used, you can customize this by replacing the source path with a desired directory on your host system and keeping the other one as it comes.
 
 
 ## ⏰ Setting Time Zone
