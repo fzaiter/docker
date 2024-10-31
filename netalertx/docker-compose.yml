@@ -1,0 +1,17 @@
+services:
+  netalertx:
+    image: jokobsk/netalertx:latest
+    container_name: NetAlertX
+    network_mode: host
+    mem_limit: 4g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: curl -f http://localhost:52804/ || exit 1
+    env_file: stack.env
+    volumes:
+      - /volume1/docker/netalertx/config:/app/config:rw
+      - /volume1/docker/netalertx/db:/app/db:rw
+      - /volume1/docker/netalertx/logs:/app/front/log:rw
+    restart: on-failure:5

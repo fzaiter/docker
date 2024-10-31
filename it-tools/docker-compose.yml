@@ -1,0 +1,14 @@
+services:
+  it-tools:
+    image: corentinth/it-tools
+    container_name: it-tools
+    network_mode: syno_bridge
+    ports:
+      - 80:80
+    healthcheck:
+     test: curl -f http://localhost:80/ || exit 1
+    mem_limit: 2g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    restart: on-failure:5

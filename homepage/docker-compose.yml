@@ -1,0 +1,19 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: Homepage
+    network_mode: syno_bridge
+    mem_limit: 4g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 3000:3000
+    volumes:
+      - /volume1/docker/homepage:/app/config:rw
+      - /volume1/docker/homepage/public:/app/public/images:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file: stack.env
+    restart: on-failure:5
+    
+# The stack.env file for homepage has not been included as this contains a lot of high sensitive information such as tokens, usernames and passwordsrelated to the configuration of the site.

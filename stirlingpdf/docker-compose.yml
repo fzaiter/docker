@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  stirling-pdf:
+    image: frooodle/s-pdf
+    container_name: Stirling-PDF
+    network_mode: syno_bridge
+    mem_limit: 4g
+    cpu_shares: 1024
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    ports:
+      - 8080:8080
+    volumes:
+      - /volume1/docker/stirlingpdf/data:/usr/share/tessdata:rw # Required for extra OCR languages
+      - /volume1/docker/stirlingpdf/config:/configs:rw
+      - /volume1/docker/stirlingpdf/logs:/logs:rw
+    env_file: stack.env
+    environment:
+      DOCKER_ENABLE_SECURITY: true # or false
+      SECURITY_ENABLELOGIN: true #or false
+      INSTALL_BOOK_AND_ADVANCED_HTML_OPS: false #or true
+      SECURITY_CSRFDISABLED: true #or false
+      SYSTEM_DEFAULTLOCALE: es_ES
+      UI_APPNAME: Stirling-PDF
+      UI_HOMEDESCRIPTION: Self-hosted PDF editing tools
+      UI_APPNAMENAVBAR: Stirling-PDF
+      SYSTEM_MAXFILESIZE: 5000 # Set the maximum file size in MB
+      METRICS_ENABLED: true
+      SYSTEM_GOOGLEVISIBILITY: false # or true
+    restart: on-failure:5

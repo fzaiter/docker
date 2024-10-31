@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  wireshark:
+    image: ghcr.io/linuxserver/wireshark
+    container_name: Wireshark
+    ports:
+      - 3000:3000
+    volumes:
+      - /volume1/docker/wireshark:/config:rw
+    mem_limit: 6g
+    cpu_shares: 1024
+    security_opt:
+      - no-new-privileges:true
+    cap_add:
+      - NET_ADMIN
+    env_file: stack.env
+    restart: on-failure:5

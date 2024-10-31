@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  openspeedtest:
+    image: openspeedtest/latest
+    container_name: OpenSpeedTest
+    network_mode: syno_bridge
+    healthcheck:
+     test: curl -f http://localhost:3000/ || exit 1
+    mem_limit: 4g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    restart: on-failure:5
+    ports:
+      - 3000:3000

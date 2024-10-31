@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  freshrss:
+    image: ghcr.io/linuxserver/freshrss:latest
+    container_name: FreshRSS
+    network_mode: syno_bridge
+    hostname: freshrss
+    ports:
+      - 80:80
+    env_file: stack.env
+    volumes:
+      - /volume1/docker/freshrss:/config:rw
+    mem_limit: 3g
+    cpu_shares: 1024
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: curl -f http://localhost:80/ || exit 1
+    restart: on-failure:5

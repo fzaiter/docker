@@ -1,0 +1,14 @@
+version: '3'
+services:
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    network_mode: syno_bridge
+    ports:
+      - '4755:7575'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - /volume1/docker/homarr:/app/data/configs
+      - /volume1/docker/homarr/icons:/app/public/icons
+      - /volume1/docker/homarr/data:/data
+    restart: unless-stopped

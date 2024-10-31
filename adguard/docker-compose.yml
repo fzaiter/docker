@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  adguard:
+    image: adguard/adguardhome
+    container_name: AdGuard
+    network_mode: host
+    mem_limit: 2g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    env_file: stack.env
+    volumes:
+      - /volume1/docker/adguard/config:/opt/adguardhome/conf:rw
+      - /volume1/docker/adguard/data:/opt/adguardhome/work:rw
+    restart: on-failure:5

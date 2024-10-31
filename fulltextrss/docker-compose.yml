@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  full-text-rss:
+    image: heussd/fivefilters-full-text-rss:latest
+    container_name: Full-Text-RSS
+    network_mode: syno_bridge
+    mem_limit: 1g
+    cpu_shares: 1024
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: curl -f http://localhost:80/ || exit 1
+    ports:
+      - 80:80
+    volumes:
+      - /volume1/docker/fulltextrss:/var/www/html/cache/rss:rw
+    env_file: stack.env
+    restart: on-failure:5

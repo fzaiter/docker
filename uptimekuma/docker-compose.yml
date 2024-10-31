@@ -1,0 +1,15 @@
+services:
+  uptimekuma:
+    image: louislam/uptime-kuma
+    container_name: Uptime-Kuma
+    network_mode: syno_bridge
+    hostname: uptimekuma
+    mem_limit: 4g
+    cpu_shares: 1024
+    ports:
+      - 3001:3001
+    volumes:
+      - /volume1/docker/uptimekuma:/app/data:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file: stack.env
+    restart: on-failure:5

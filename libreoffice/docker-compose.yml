@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  libreoffice:
+    image: ghcr.io/linuxserver/libreoffice:latest
+    container_name: LibreOffice
+    network_mode: syno_bridge
+    mem_limit: 8g
+    cpu_shares: 2048
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 3000:3000
+    volumes:
+      - /volume1/docker/libreoffice:/config:rw
+    env_file: stack.env
+    restart: on-failure:5

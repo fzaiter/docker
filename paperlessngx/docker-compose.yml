@@ -1,0 +1,76 @@
+services:
+  broker:
+    image: docker.io/library/redis:7
+    container_name: PaperlessNGX-REDIS
+    hostname: paper-redis
+    network_mode: paperless-ngx
+    volumes:
+      - /volume1/docker/paperlessngx/redis:/data:rw
+    restart: unless-stopped
+
+  db:
+    image: docker.io/library/postgres:16
+    container_name: PaperlessNGX-DB
+    hostname: paper-db
+    network_mode: paperless-ngx
+    environment:
+      POSTGRES_DB: {VALUE}
+      POSTGRES_USER: {VALUE}
+      POSTGRES_PASSWORD: {VALUE}
+      TZ: {VALUE}
+    volumes:
+      - /volume1/docker/paperlessngx/db:/var/lib/postgresql/data:rw
+    restart: unless-stopped
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: PaperlessNGX
+    hostname: paperless-ngx
+    network_mode: paperless-ngx
+    depends_on:
+      - db
+      - broker
+      - gotenberg
+      - tika
+    ports:
+      - "8000:8000"
+    volumes:
+      - /volume1/docker/paperlessngx/data:/usr/src/paperless/data:rw
+      - /volume1/docker/paperlessngx/media:/usr/src/paperless/media:rw
+      - /volume1/docker/paperlessngx/export:/usr/src/paperless/export:rw
+      - /volume1/docker/paperlessngx/consume:/usr/src/paperless/consume:rw
+    env_file: stack.env
+    environment:
+      PAPERLESS_REDIS: redis://paper-redis:6379
+      PAPERLESS_DBHOST: {VALUE}
+      PAPERLESS_DBNAME: {VALUE}
+      PAPERLESS_DBUSER: {VALUE}
+      PAPERLESS_DBPASS: {VALUE}
+      PAPERLESS_TIKA_ENABLED: 1
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
+      PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+      PAPERLESS_ADMIN_USER: {VALUE}
+      PAPERLESS_ADMIN_PASSWORD: {VALUE}
+      PAPERLESS_OCR_LANGUAGE: eng+spa
+      PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{title}"
+    restart: unless-stopped
+
+  gotenberg:
+    image: docker.io/gotenberg/gotenberg:8.7
+    container_name: PaperlessNGX-GOTENBERG
+    hostname: gotenberg
+    network_mode: paperless-ngx
+    # The gotenberg chromium route is used to convert .eml files. We do not
+    # want to allow external content like tracking pixels or even javascript.
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+    restart: unless-stopped
+
+  tika:
+    image: docker.io/apache/tika:latest
+    container_name: PaperlessNGX-TIKA
+    hostname: tika
+    network_mode: paperless-ngx
+    restart: unless-stopped

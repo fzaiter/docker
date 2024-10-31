@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  plex:
+    image: ghcr.io/linuxserver/plex:latest
+    container_name: Plex
+    hostname: plex
+    network_mode: host
+    ports:
+      - 32400:32400
+    mem_limit: 4g
+    cpu_shares: 1024
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:32400/web
+    env_file: stack.env
+    volumes:
+      - /volume1/docker/plex:/config:rw
+      - /volume1/data/media:/movies:ro
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+    restart: on-failure:5

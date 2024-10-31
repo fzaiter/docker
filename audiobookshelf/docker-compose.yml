@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    network_mode: syno_bridge
+    ports:
+      - 80:80
+    env_file: stack.env
+    volumes:
+      - /volume1/data/media/Audiobooks:/audiobooks
+      - /volume1/data/media/Podcasts:/podcasts
+      - /volume1/docker/audiobookshelf:/config
+      - /volume1/docker/audiobookshelf/metadata:/metadata
+    restart: unless-stopped

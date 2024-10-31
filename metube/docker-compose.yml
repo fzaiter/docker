@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: MeTube
+    network_mode: syno_bridge
+    healthcheck:
+     test: curl -f http://localhost:8081/ || exit 1
+    mem_limit: 6g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 8081:8081
+    volumes:
+      - /volume1/data/downloads/complete:/downloads:rw
+      - /volume1/docker/metube/cookies:/cookies
+    env_file: stack.env
+    restart: on-failure:5

@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: Jellyfin
+    network_mode: syno_bridge
+    ports:
+      - 8096:8096
+      # - 8920:8920 #optional for automated discovery of Jellyfin by the apps
+      # - 7359:7359/udp #optional HTTPS port which is useful if not using the reverse proxy
+    env_file: stack.env
+    volumes:
+      - /volume1/docker/jellyfin/config:/config:rw
+      - /volume1/docker/jellyfin/cache:/cache:rw
+      - /volume1/docker/jellyfin/logs:/logs:rw
+      - /volume1/data/media:/media:rw
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+    restart: on-failure:5

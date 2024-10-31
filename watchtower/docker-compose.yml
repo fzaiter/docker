@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: Watchtower
+    hostname: watchtower
+    mem_limit: 512m
+    mem_reservation: 128m
+    cpu_shares: 512
+    security_opt:
+      - no-new-privileges=true
+    read_only: true
+    ports:
+      - 80808:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    env_file: stack.env
+    environment:
+      WATCHTOWER_CLEANUP: true #  Removes old images after updating a container to use a newer one.
+      WATCHTOWER_REMOVE_VOLUMES: false # Remove attached volumes after updating
+      DOCKER_API_VERSION: 1.41 # SSH docker version 1.41 for Docker engine version 20.10 - 1.43 for Docker engine version 24 - 1.45 for Docker engine version 26.1
+      WATCHTOWER_INCLUDE_RESTARTING: true # Restart containers after update
+      WATCHTOWER_INCLUDE_STOPPED: false # Updates stopped containers as well.
+      WATCHTOWER_REVIVE_STOPPED: false # Will NOT start any stopped containers that have their image updated. If set to true it would start them regardless of their state.
+      WATCHTOWER_SCHEDULE: "0 0 0 * * 0" # Scan containers once a week, midnight between Sat/Sun  
+      WATCHTOWER_MONITOR_ONLY: false # Watchtower will only monitor but not perform updates if this is set to true.
+      WATCHTOWER_LABEL_ENABLE: false
+      WATCHTOWER_HTTP_API_METRICS: true # Added for Homepage Dashboard
+      WATCHTOWER_ROLLING_RESTART: false # If true, restarts one image at time instead of stopping and starting all at once
+      WATCHTOWER_TIMEOUT: 30s
+      WATCHTOWER_LOG_FORMAT: pretty
+      WATCHTOWER_LIFECYCLE_HOOKS: 1 
+      WATCHTOWER_NOTIFICATIONS: shoutrrr
+    restart: on-failure:5
