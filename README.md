@@ -26,7 +26,7 @@
 
 ---
 
-## 🔃 Port Mapping
+## <a name="#port-mapping"/> 🔃 Port Mapping
 
 Docker Compose enables you to map container ports to host ports, allowing services to be accessed from your host system. The format is `host_port:container_port`, where:
 
