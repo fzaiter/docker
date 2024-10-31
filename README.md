@@ -26,8 +26,8 @@ Docker Compose enables you to map container ports to host ports, allowing servic
 For example, to map port `80` of a container to port `8000` on your host machine:
 
 ```yaml
-ports:
-  - "8000:80"
+    ports:
+      - "8000:80"
 ```
 In this example:
 > 8000: The host port through which external applications or users access the service. 
@@ -39,12 +39,35 @@ In this example:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## 🔄 Volume Mapping
+
+Docker Compose also allows you to map volumes from your host system to containers, enabling data sharing between the two. The format is `source_path:destination_path`, where:
+
+- The **left side** specifies the path on your host.
+- The **right side** specifies the destination path within the container.
+
+For example, to map a local directory located at `/volume/docker/containername/data` to a container directory `/data`:
+
+```yaml
+    volumes:
+      - /volume/docker/containername/data:/data
+```
+In this example:
+
+> /volume/docker/containername/data: The host directory that you want to share with the container.
+>
+> /data: The destination directory inside the container where the shared data will be located.
+
+> [!NOTE]  
+> In the files where volume variables are used, you can customize this by replacing the source path with a desired directory on your host system and keeping the destination path as it comes.
+
+
 ## ⏰ Setting Time Zone
 
 To set the time zone of a Docker container, use the TZ environment variable. For example:
 ```yaml
-environment:
-  - TZ=America/Los_Angeles
+    environment:
+      - TZ=America/Los_Angeles
 ```
 > [!NOTE]  
 > In the files where TZ variables are used, replace "America/Los_Angeles" with the time zone you want. Check your time zone using this [time zone finder by Marius Bogdan Lizandru](https://timezone.mariushosting.com/).
@@ -60,10 +83,10 @@ Define sensitive variables directly in the docker-compose.yml file under the env
 
 >docker-compose.yml:
 >```yaml
->environment:
->  - TZ=America/Los_Angeles
->  - PUID=1000
->  - PGID=1000
+>    environment:
+>      - TZ=America/Los_Angeles
+>      - PUID=1000
+>      - PGID=1000
 >```
 Option 2: Using a .env File
 
