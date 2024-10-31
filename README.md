@@ -1,44 +1,95 @@
-# Docker
+<a id="readme-top"></a>
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/fzaiter/docker">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/610px-Docker_%28container_engine%29_logo.svg.png" alt="Logo" width="30%" height="30%">
+  </a>
 
-A Collection of cocker compose files to deploy different services in a homelab environment.
+  <h3 align="center">Docker Compose Collection for Homelab 🏠</h3>
 
-Simply tweak to your environment and deploy!
+  <p align="center">
+    A collection of Docker Compose files designed for deploying various services in a homelab environment.
+    Customize each configuration to suit your needs and start deploying!
+  </p>
+</div>
 
-## 🔒 Sensitive Information
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#port-mapping">🔃 Port Mapping</a></li>
+    <li><a href="#setting-time-zone">⏰ Setting Time Zone</a></li>
+    <li><a href="#managing-sensitive-information">🔒 Managing Sensitive Information</a></li>
+  </ol>
+</details>
 
-To apply best practices, the files do not include any information that may be considered sensitive, in order to prevent it from being leaked. While we can include these variables as part of the `environment` section of our files, a common strategy is to include them in a separate `.env` file.
+---
 
-- **Including variables as part of the `environment` section:**
+## 🔃 Port Mapping
 
+Docker Compose enables you to map container ports to host ports, allowing services to be accessed from your host system. The format is `host_port:container_port`, where:
 
-    >docker-compose.yml
-    >```docker
-    >environment:
-    >  - TZ=America/Los_Angeles
-    >  - PUID=1000
-    >  - PGID=1000
-    >```
+- The **left side** specifies the port on your host.
+- The **right side** specifies the internal port within the container.
 
-- **Including them in a separate `.env` file and referencing it from the `docker-compose` file:**
+For example, to map port `80` of a container to port `8000` on your host machine:
 
-    >docker-compose.yml
-    >```docker
-    >env_file: stack.env
-    >```
+```yaml
+ports:
+  - "8000:80"
+```
+In this example:
+> 8000: The host port through which external applications or users access the service. 
+>
+> 80: The container's internal port that the service listens on. 
 
-    >stack.env
-    >```docker
-    >TZ=America/Los_Angeles
-    >PUID=1000
-    >PGID=1000
-    >```
-    > Just remember to save this file in the same place as the `docker-compose.yml` file.
+> [!NOTE]  
+> In the files where port variables are used, you can customize this by simply replacing the host port with an available port on your host system and keeping the one to the right side as it comes.
 
-When some dockers include sensitive variables, these will be listed in a comment at the end of each `docker-compose` and should be included in one of the two approaches indicated above.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Setting Time Zone
+## ⏰ Setting Time Zone
 
-To set the time zone of a Docker container, we can use the `TZ` environment variable as:
-`TZ=America/Los_Angeles`
+To set the time zone of a Docker container, use the TZ environment variable. For example:
+```yaml
+environment:
+  - TZ=America/Los_Angeles
+```
+> [!NOTE]  
+> In the files where TZ variables are used, replace "America/Los_Angeles" with the time zone you want. Check your time zone using this [time zone finder by Marius Bogdan](https://timezone.mariushosting.com/).
 
-Just replace “America/Los_Angeles” with the time zone you want to use. You can check your time zone using this [website created by Marius Bodgan](https://timezone.mariushosting.com/).
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🔒 Managing Sensitive Information
+
+For security best practices, avoid including sensitive information directly in Compose files. Instead, use environment variables or a separate .env file.
+Option 1: Defining Variables in environment
+
+Define sensitive variables directly in the docker-compose.yml file under the environment section:
+
+>docker-compose.yml:
+>```yaml
+>environment:
+>  - TZ=America/Los_Angeles
+>  - PUID=1000
+>  - PGID=1000
+>```
+Option 2: Using a .env File
+
+Alternatively, include sensitive information in a separate .env file and reference it in your docker-compose.yml:
+
+>docker-compose.yml:
+>```yaml
+>env_file: stack.env
+>```
+>stack.env:
+>```yaml
+>    TZ=America/Los_Angeles
+>    PUID=1000
+>    PGID=1000
+>```
+
+> [!NOTE]  
+> Note: When sensitive values are required, stack.env will use placeholder values like {VALUE} for you to replace with actual information. Make sure to save this .env file in the same directory as the docker-compose.yml file.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
