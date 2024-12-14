@@ -6,7 +6,6 @@ services:
     ports:
       - 3000:3000
     env_file: stack.env
-    - SB_USER=admin:admin
     volumes:
       - /volume1/docker/silverbullet/space:/space
     restart: unless-stopped
