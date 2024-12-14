@@ -1,0 +1,12 @@
+services:
+  silverbullet:
+    image: zefhemel/silverbullet
+    container_name: silverbullet
+    network_mode: syno_bridge
+    ports:
+      - 3000:3000
+    env_file: stack.env
+    - SB_USER=admin:admin
+    volumes:
+      - /volume1/docker/silverbullet/space:/space
+    restart: unless-stopped
