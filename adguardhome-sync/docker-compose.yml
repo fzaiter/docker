@@ -1,0 +1,13 @@
+version: "2.1"
+services:
+  adguardhome-sync:
+    image: ghcr.io/bakito/adguardhome-sync
+    container_name: adguardhome-sync
+    command: run
+    ports:
+      - 8080:8080
+    env_file: stack.env
+    environment:
+      CRON: "0 */2 * * *" # run every 2 hours
+      RUN_ON_START: "true"
+    restart: unless-stopped
