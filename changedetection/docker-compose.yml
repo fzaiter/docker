@@ -2,14 +2,13 @@ services:
   changedetection:
     image: ghcr.io/dgtlmoon/changedetection.io:latest
     container_name: changedetection
-    network_mode: syno_bridge
+    network_mode: changedetectionet
     hostname: changedetection
     ports:
       - 5000:5000
     environment:
       - PLAYWRIGHT_DRIVER_URL=ws://playwright-chrome:3000
     volumes:
-      - ./data/datastore:/datastore
       - /volume1/docker/changedetection:/datastore:rw
     mem_limit: 4g
     cpu_shares: 768
@@ -20,6 +19,7 @@ services:
   playwright-chrome:
     image: browserless/chrome
     container_name: playwright-chrome
+    network_mode: changedetectionet
     hostname: playwright-chrome
     restart: unless-stopped
     environment:
