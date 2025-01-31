@@ -2,13 +2,14 @@ services:
   web:
     image: ghcr.io/hoarder-app/hoarder:latest
     container_name: Hoarder-Web
-    network_mode: syno_bridge
+    networks:
+      - hoarder_network
     volumes:
       - /volume1/docker/hoarder/data:/data:rw
     ports:
-      - 41254:3000
+      - 3000:3000
     env_file:
-      - .env
+      - stack.env
     environment:
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
@@ -18,7 +19,8 @@ services:
   chrome:
     image: gcr.io/zenika-hub/alpine-chrome:123
     container_name: Hoarder-Chrome
-    network_mode: syno_bridge
+    networks:
+      - hoarder_network
     restart: on-failure:5
     command:
       - --no-sandbox
@@ -30,11 +32,15 @@ services:
   meilisearch:
     image: getmeili/meilisearch:v1.11.1
     container_name: Hoarder-Meili
-    network_mode: syno_bridge 
+    networks:
+      - hoarder_network
     volumes:
-      - /volume1/docker/hoarder/meili:/meili_data:rw   
+      - /volume1/docker/hoarder/meili:/meili_data:rw
     env_file:
-      - .env
+      - stack.env
     environment:
       MEILI_NO_ANALYTICS: "true"
-        restart: on-failure:5
+
+networks:
+  hoarder_network:
+    driver: bridge
