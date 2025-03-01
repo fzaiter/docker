@@ -35,6 +35,7 @@ services:
       - no-new-privileges:true
     volumes:
       - /volume1/docker/metabase/db:/var/lib/postgresql/data:rw
+    env_file: stack.env
     environment:
       POSTGRES_USER: {VALUE}
       POSTGRES_DB: metabaseappdb
