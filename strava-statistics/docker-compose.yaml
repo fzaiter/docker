@@ -1,0 +1,13 @@
+services:
+  app:
+    image: robiningelbrecht/strava-statistics:latest
+    container_name: Strava-statistics
+    network_mode: syno_bridge
+    ports:
+      - 8080:8080
+    volumes:
+      - /volume1/docker/strava-statistics/build:/var/www/build
+      - /volume1/docker/strava-statistics/storage/database:/var/www/storage/database
+      - /volume1/docker/strava-statistics/storage/files:/var/www/storage/files
+    env_file: stack.env
+    restart: on-failure:5
